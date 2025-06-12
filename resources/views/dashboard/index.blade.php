@@ -418,6 +418,12 @@
                             <div class="card shadow">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">Kumbung Anda</h6>
+                                    <!-- Form Search Tersembunyi -->
+                                    <form id="searchFormInline" action="{{ route('dashboard.index') }}"
+                                        method="GET" class="ml-3 {{ request('search') ? '' : 'd-none' }}">
+                                        <input type="text" name="search" class="form-control form-control-sm"
+                                            placeholder="Cari...">
+                                    </form>
 
                                     @if (Auth::user()->role === 'admin')
                                         <!-- Dropdown Button -->
@@ -432,9 +438,9 @@
                                                     data-toggle="modal" data-target="#addModal">
                                                     <i class="fas fa-plus"></i> Add
                                                 </button>
-                                                <button class="dropdown-item btn btn-sm" data-toggle="modal"
-                                                    data-target="#searchModal">
-                                                    <i class="fas fa-search"></i> Search
+
+                                                <button class="dropdown-item btn btn-sm" id="toggleSearch">
+                                                    <i class="fas fa-search"></i> Tampilkan Pencarian
                                                 </button>
                                                 <button class="dropdown-item btn btn-sm toggle-mode"
                                                     data-mode="device-actions">
@@ -575,7 +581,7 @@
     </a>
 
     <!-- Search Modal -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -599,7 +605,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
@@ -754,6 +760,18 @@
                 },
             });
         </script>
+        <script>
+            document.getElementById('toggleSearch').addEventListener('click', function() {
+                const form = document.getElementById('searchFormInline');
+                const isHidden = form.classList.contains('d-none');
+
+                form.classList.toggle('d-none');
+                this.innerHTML = isHidden ?
+                    '<i class="fas fa-search"></i> Sembunyikan Pencarian' :
+                    '<i class="fas fa-search"></i> Tampilkan Pencarian';
+            });
+        </script>
+
     @endif
 
 

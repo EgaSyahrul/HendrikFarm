@@ -24,7 +24,7 @@
     <link href="{{ asset('assets/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <style>
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: "Times New Roman", Times, serif;
             background-color: #EDF0F7;
         }
 
@@ -92,13 +92,15 @@
         }
 
         .featurette {
+            color: #001659;
             margin-bottom: 2rem;
             padding: 1rem 0;
         }
 
         .featurette-heading {
-            font-size: 1.5rem;
-            font-weight: 300;
+            /* font-size: 1.5rem; */
+            /* color: #001659; */
+            font-weight: 900;
             line-height: 1.2;
             margin-bottom: 0.5rem;
         }
