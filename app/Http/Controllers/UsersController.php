@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Overview;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class UsersController extends Controller
             }
         });
 
-        return view('users.index', compact('user','users'));
+        return view('users.index', compact('user', 'users'));
     }
 
 
@@ -81,11 +82,15 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
+        // Hapus semua data overview terkait
+        Overview::where('user_id', $id)->delete();
+
+        // Hapus user
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('users.index')->with('success', 'Akun dan semua data kumbung berhasil dihapus.');
     }
 }

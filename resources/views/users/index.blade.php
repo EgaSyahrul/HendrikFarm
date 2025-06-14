@@ -307,7 +307,7 @@
                                                     </button>
                                                     <form action="{{ route('users.destroy', $user->id) }}"
                                                         method="POST" style="display:inline-block;"
-                                                        onsubmit="return confirm('Yakin ingin menghapus akun ini?');">
+                                                        onsubmit="return confirm('Menghapus akun ini akan menghapus semua data kumbung yang terkait. Yakin ingin melanjutkan?');">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger">
