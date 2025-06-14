@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('sync:sensor-data')->everyThirtyMinutes();
+        $schedule->command('sync:sensor-data')->hourly();
     }
 
     /**

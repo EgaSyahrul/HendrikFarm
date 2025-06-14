@@ -66,6 +66,11 @@
         .data-kum.active {
             background-color: #F6F6F6;
         }
+        
+        .table-delete-mode tr.data-kum {
+            background-color: #f8d7da;
+            transition: background-color 0.3s ease;
+        }
 
         .nav-item a {
             text-decoration: none;
@@ -272,7 +277,7 @@
                             @if ($selectedDevice)
                                 <div class="row">
                                     <!-- Nama -->
-                                    <div class="col-xl-6 col-md-6 mb-4">
+                                    <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card border-left-primary shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
@@ -294,7 +299,7 @@
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="col-xl-6 col-md-6 mb-4">
+                                    <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card border-left-dark shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
@@ -309,6 +314,44 @@
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-signal fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Lampu -->
+                                    <div class="col-xl-4 col-md-6 mb-4">
+                                        <div class="card border-left-dark shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        {{-- <div
+                                                            class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                                                            Lampu
+                                                        </div> --}}
+                                                        @if ($selectedDevice['lampu'] === null)
+                                                            <p>-</p>
+                                                        @else
+                                                            <form method="POST" action="{{ route('dashboard.lamp', ['id' => $selectedDevice['id']]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="token" value="{{ $selectedDevice['token'] }}">
+                                                                <input type="hidden" name="pin" value="{{ $selectedDevice['pin'] }}">
+
+                                                                @php
+                                                                    $isOn = $selectedDevice['lampu'] === '1';
+                                                                    $nextStatus = $isOn ? '1' : '0';
+                                                                @endphp
+
+                                                                <button type="submit" name="status" value="{{ $nextStatus }}"
+                                                                    class="btn btn-{{ $isOn ? 'danger' : 'success' }}">
+                                                                    {{ $isOn ? 'Lampu Off' : 'Lampu On' }}
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-lightbulb fa-2x text-gray-300"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -470,19 +513,6 @@
                                                                 <small class="text-danger">OFFLINE</small>
                                                             @endif
                                                         </td>
-                                                        {{-- <td class="text-center device-actions"
-                                                                data-id="{{ $device['id'] }}">
-                                                                <a href="{{ route('dashboard.index', ['device_id' => $device['id']]) }}"
-                                                                    class="btn btn-sm">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                                <button class="btn btn-sm btn-delete"
-                                                                    style="display: none;" data-toggle="modal"
-                                                                    data-target="#deleteModal{{ $device['id'] }}">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td> --}}
-
 
                                                         <!-- Modal Delete -->
                                                         <div class="modal fade" id="deleteModal{{ $device['id'] }}"
@@ -700,18 +730,27 @@
             <script>
                 let currentMode = 'device-actions'; // default mode
 
-                document.querySelector('.toggle-mode').addEventListener('click', function() {
+                const toggleButton = document.querySelector('.toggle-mode');
+                const dataTable = document.querySelector('#dataTable tbody');
+
+                toggleButton.addEventListener('click', function() {
                     currentMode = (currentMode === 'device-actions') ? 'delete' : 'device-actions';
                     this.dataset.mode = currentMode;
-                    this.innerHTML =
-                        `<i class="fas fa-random"></i> Mode: ${currentMode === 'delete' ? 'Delete' : 'Actions'}`;
+                    this.innerHTML = `<i class="fas fa-random"></i> Mode: ${currentMode === 'delete' ? 'Delete' : 'Actions'}`;
+
+                    // Tambah atau hapus class 'table-delete-mode' pada tbody
+                    if (currentMode === 'delete') {
+                        dataTable.classList.add('table-delete-mode');
+                    } else {
+                        dataTable.classList.remove('table-delete-mode');
+                    }
                 });
 
-                // Handle tr click
-                document.querySelectorAll('#dataTable tbody tr').forEach(function(row) {
+                // Handle klik pada baris tr
+                document.querySelectorAll('#dataTable tbody tr.data-kum').forEach(function(row) {
                     row.addEventListener('click', function() {
                         const id = this.getAttribute('data-id');
-                        if (!id) return; // skip if no device ID
+                        if (!id) return; // skip jika tidak ada ID
 
                         if (currentMode === 'device-actions') {
                             window.location.href = `/dashboard?device_id=${id}`;

@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -59,6 +60,7 @@ class DashboardController extends Controller
             $kelembaban = $this->safeApiGet($url_kelembaban);
             $status = $this->safeApiGet($url_status);
             $mesin = $this->safeApiGet($url_mesin);
+            $lampu = $this->safeApiGet($url_lampu);
 
             // Check if the device is online
             $online = !empty($status) && !str_contains($status, 'Sensor Error');
@@ -74,6 +76,9 @@ class DashboardController extends Controller
                     'mesin' => $mesin ?? '-',
                     'online' => $online,
                     'user_name' => $userName,
+                    'token' => $api,
+                    'pin' => $database_lampu,
+                    'lampu' => $online ? $lampu : null,
                 ]);
             } else {
                 $dataDevices->push([
@@ -86,6 +91,9 @@ class DashboardController extends Controller
                     'mesin' => '-',
                     'online' => null,
                     'user_name' => $userName,
+                    'token' => $api,
+                    'pin' => $database_lampu,
+                    'lampu' => $online ? $lampu : null,
                 ]);
             }
         }
@@ -131,13 +139,24 @@ class DashboardController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function lamp(Request $request, $id)
     {
-        //
+        $status = $request->input('status');
+        $authToken = $request->input('token');
+        $pin = $request->input('pin');
+        $value = ($status === "0") ? 1 : 0;
+
+        $url = "https://blynk.cloud/external/api/update?token=$authToken&V$pin=$value";
+
+        $response = Http::get($url);
+
+        if ($response->successful()) {
+            return redirect()->route('dashboard.index')->with('success', "Lampu berhasil di-$status");
+        } else {
+            return redirect()->route('dashboard.index')->with('error', 'Gagal mengubah status lampu');
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.

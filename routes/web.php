@@ -19,7 +19,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 Route::middleware(['auth'])->group(function () {
-    Route::resource('/dashboard', DashboardController::class)->names('dashboard');
+    Route::resource('dashboard', DashboardController::class)->names('dashboard');
+    Route::post('dashboard/{id}/lamp', [DashboardController::class, 'lamp'])->name('dashboard.lamp');
 });
 
 Route::middleware(['auth', 'checkRole:admin'])->group(function () {
