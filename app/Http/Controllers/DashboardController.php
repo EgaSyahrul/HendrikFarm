@@ -61,7 +61,7 @@ class DashboardController extends Controller
             $mesin = $this->safeApiGet($url_mesin);
 
             // Check if the device is online
-            $online = !empty($status) && !str_contains($status, 'Status Error');
+            $online = !empty($status) && !str_contains($status, 'Sensor Error');
 
             if ($online) {
                 $dataDevices->push([
