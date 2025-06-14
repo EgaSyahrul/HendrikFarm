@@ -239,71 +239,11 @@
                             </li>
                         @else
                             <!-- Tombol untuk memicu modal -->
-                            <a class="mr-2 mt-2 text-light" href="#" data-toggle="modal"
-                                data-target="#loginModal">
+                            <a class="mr-2 mt-2 text-light" href="{{ route('login.index') }}">
                                 <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Login
                             </a>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="{{ route('login.store') }}" method="POST">
-                                            @csrf
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{-- Email --}}
-                                                <div class="form-group">
-                                                    <label for="email">Username</label>
-                                                    <input type="email"
-                                                        class="form-control @error('email') is-invalid @enderror"
-                                                        id="email" name="email" value="{{ old('email') }}"
-                                                        required>
-                                                    @error('email')
-                                                        <span class="invalid-feedback"
-                                                            role="alert">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-
-                                                {{-- Password --}}
-                                                <div class="form-group">
-                                                    <label for="password">Password</label>
-                                                    <input type="password"
-                                                        class="form-control @error('password') is-invalid @enderror"
-                                                        id="password" name="password" required>
-                                                    @error('password')
-                                                        <span class="invalid-feedback"
-                                                            role="alert">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-
-                                                {{-- Error Login (Credential) --}}
-                                                @if ($errors->any() && !$errors->has('email') && !$errors->has('password'))
-                                                    <div class="alert alert-danger">
-                                                        {{ $errors->first() }}
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Login</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Batal</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
                         @endif
-
                     </ul>
 
                 </nav>
@@ -532,7 +472,7 @@
             });
         </script>
     @endif
-    @if (session('openLoginModal'))
+    {{-- @if (session('openLoginModal'))
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Menampilkan pesan error (jika ada)
@@ -544,7 +484,7 @@
                 $('#loginModal').modal('show');
             });
         </script>
-    @endif
+    @endif --}}
 
 
 
