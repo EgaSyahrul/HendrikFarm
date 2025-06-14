@@ -59,7 +59,7 @@
 
         .hero-section {
             position: relative;
-            background-image: url('/assets/img/Skripsi/Foto Kumbung dll/IMG_20250604_164733.jpg');
+            background-image: url('/assets/img/Gambar WhatsApp 2025-06-14 pukul 12.35.33_f2d44f73.jpg');
             /* filter: grayscale(60%); */
             background-size: cover;
             background-position: center;
@@ -83,12 +83,19 @@
             position: relative;
             z-index: 2;
             text-align: center;
+            color: white;
+            text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.8);
         }
 
         .hero-text h1 {
             font-size: 3rem;
             font-weight: bold;
-            color: #fff;
+            /* color: #fff; */
+        }
+
+        .hero-text h5 {
+            font-weight: bold;
+            /* color: #fff; */
         }
 
         .featurette {
@@ -199,7 +206,8 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-dark topbar static-top shadow">
                     <!-- Brand di sisi kiri -->
-                    <a class="navbar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
+                    <a class="navbar-brand d-flex align-items-center justify-content-center"
+                        href="{{ route('dashboard.index') }}">
                         <div class="sidebar-brand-text mx-3 fw-bolder text-light fs-5" style="white-space: nowrap;">
                             SMART
                             CONTROLLER</div>
@@ -256,7 +264,9 @@
                 <div class="hero-section">
                     <div class="hero-overlay"></div>
                     <div class="hero-text">
-                        <h1 style="text-transform: uppercase;">Selamat Datang<br>di<br>SMART CONTROLLER</h1>
+                        <h1 style="text-transform: uppercase;">SMART CONTROLLER</h1>
+                        <h5>adalah aplikasi sistem informasi berbasis website untuk memonitoring kondisi udara kumbung
+                            dalam budidaya jamur merang</h5>
                     </div>
                 </div>
 

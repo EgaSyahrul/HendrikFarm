@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('login.index');
     }
 
@@ -32,19 +33,18 @@ class LoginController extends Controller
                 return redirect()->intended('/dashboard');
             } else {
                 Auth::logout();
-                return redirect('/')->withErrors('Anda Berhasil Logout')->withInput();
+                return redirect('/login')->withErrors('Anda Berhasil Logout')->withInput();
             }
         } else {
-            return redirect('/')
+            return redirect('/login')
                 ->withErrors(['loginError' => 'Username atau password yang anda masukkan salah'])
-                ->withInput()
-                ->with('openLoginModal', true);
+                ->withInput();
         }
     }
 
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect('/login')->withErrors('Anda Berhasil Logout');
     }
 }
