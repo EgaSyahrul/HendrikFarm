@@ -66,7 +66,7 @@
         .data-kum.active {
             background-color: #F6F6F6;
         }
-        
+
         .table-delete-mode tr.data-kum {
             background-color: #f8d7da;
             transition: background-color 0.3s ease;
@@ -333,17 +333,21 @@
                                                         @if ($selectedDevice['lampu'] === null)
                                                             <p>-</p>
                                                         @else
-                                                            <form method="POST" action="{{ route('dashboard.lamp', ['id' => $selectedDevice['id']]) }}">
+                                                            <form method="POST"
+                                                                action="{{ route('dashboard.lamp', ['id' => $selectedDevice['id']]) }}">
                                                                 @csrf
-                                                                <input type="hidden" name="token" value="{{ $selectedDevice['token'] }}">
-                                                                <input type="hidden" name="pin" value="{{ $selectedDevice['pin'] }}">
+                                                                <input type="hidden" name="token"
+                                                                    value="{{ $selectedDevice['token'] }}">
+                                                                <input type="hidden" name="pin"
+                                                                    value="{{ $selectedDevice['pin'] }}">
 
                                                                 @php
                                                                     $isOn = $selectedDevice['lampu'] === '1';
                                                                     $nextStatus = $isOn ? '1' : '0';
                                                                 @endphp
 
-                                                                <button type="submit" name="status" value="{{ $nextStatus }}"
+                                                                <button type="submit" name="status"
+                                                                    value="{{ $nextStatus }}"
                                                                     class="btn btn-{{ $isOn ? 'danger' : 'success' }}">
                                                                     {{ $isOn ? 'Lampu Off' : 'Lampu On' }}
                                                                 </button>
@@ -736,7 +740,8 @@
                 toggleButton.addEventListener('click', function() {
                     currentMode = (currentMode === 'device-actions') ? 'delete' : 'device-actions';
                     this.dataset.mode = currentMode;
-                    this.innerHTML = `<i class="fas fa-random"></i> Mode: ${currentMode === 'delete' ? 'Delete' : 'Actions'}`;
+                    this.innerHTML =
+                        `<i class="fas fa-random"></i> Mode: ${currentMode === 'delete' ? 'Delete' : 'Actions'}`;
 
                     // Tambah atau hapus class 'table-delete-mode' pada tbody
                     if (currentMode === 'delete') {
@@ -767,11 +772,10 @@
             const kelembabanData = @json($allCharts['kelembaban']);
             const waktuData = @json($allCharts['waktu']);
 
-            // Chart Suhu
-            new Chart(document.getElementById('allSuhuChart'), {
+            const suhuChart = new Chart(document.getElementById('allSuhuChart'), {
                 type: 'line',
                 data: {
-                    labels: waktuData,
+                    labels: @json($allCharts['waktu']),
                     datasets: [{
                         label: 'Temperature History (°C)',
                         data: @json($allCharts['suhu']),
@@ -783,11 +787,10 @@
                 },
             });
 
-            // Chart Kelembaban
-            new Chart(document.getElementById('allKelembabanChart'), {
+            const kelembabanChart = new Chart(document.getElementById('allKelembabanChart'), {
                 type: 'line',
                 data: {
-                    labels: waktuData,
+                    labels: @json($allCharts['waktu']),
                     datasets: [{
                         label: 'Humidity History (%)',
                         data: @json($allCharts['kelembaban']),
@@ -798,7 +801,29 @@
                     }]
                 },
             });
+
+            // Fungsi untuk memperbarui data chart
+            function updateCharts() {
+                fetch("{{ route('dashboard.index', ['device_id' => $selectedDevice['id']]) }}")
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update Suhu Chart
+                        suhuChart.data.labels = data.allCharts.waktu;
+                        suhuChart.data.datasets[0].data = data.allCharts.suhu;
+                        suhuChart.update();
+
+                        // Update Kelembaban Chart
+                        kelembabanChart.data.labels = data.allCharts.waktu;
+                        kelembabanChart.data.datasets[0].data = data.allCharts.kelembaban;
+                        kelembabanChart.update();
+                    })
+                    .catch(error => console.error('Error updating charts:', error));
+            }
+
+            // Refresh chart setiap 5 detik
+            setInterval(updateCharts, 5000);
         </script>
+
         <script>
             document.getElementById('toggleSearch').addEventListener('click', function() {
                 const form = document.getElementById('searchFormInline');
