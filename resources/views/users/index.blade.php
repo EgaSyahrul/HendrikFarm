@@ -357,7 +357,7 @@
                             class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div> --}}
                     <div class="copyright text-center text-dark my-2">
-                        <span>&copy; 2025 Rushbin Enterprise | Copyright All Rights Reserved</span>
+                        <span>&copy; 2025 Smart Controller | Copyright All Rights Reserved</span>
                     </div>
                 </div>
             </footer>
@@ -380,7 +380,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Apakah kamu mau keluar?</h5>
+                    <h5 class="modal-title" id="logoutModalLabel">Apakah anda ingin keluar?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>

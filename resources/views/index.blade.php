@@ -370,52 +370,25 @@
                     <hr class="featurette-divider">
                 </div>
 
-                <!-- Creator Section -->
-                <div class="creator-section text-center py-4 mb-5">
-                    <h3>Dibuat oleh Ega Syahrul Ramadhanto</h3>
-                    <img class="img-profile rounded-circle py-2"
-                        src="{{ asset('assets/img/Gambar WhatsApp 2025-06-09 pukul 11.43.55_98dedb46.jpg') }}"
-                        alt="creator-img" style="height: 200px">
-                    <p>
-                        Halo, saya Ega Syahrul Ramadhanto. Seorang web developer dan mahasiswa yang antusias
-                        dalam teknologi serta desain web.
-                        <br>
-                        Kunjungi portofolio saya di <a class="creator-link" href="https://egasyahrul.github.io/"
-                            target="_blank" rel="noopener noreferrer">egasyahrul.github.io</a>
-                        untuk melihat proyek saya yang lain.
-                    </p>
-                </div>
-
-            </div>
-            <!-- End of Main Content -->
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container">
                     <div class="footer-info">
-                        <a href="https://maps.app.goo.gl/CnjuuzRcBsFAgWKv7" target="_blank" class="footer-link">
-                            <p><strong>Alamat:</strong> Jl. Menuju Kenangan Indah No.3, Talangsari, Kabupaten Jember,
-                                Jawa Timur</p>
+                        <a href="https://www.google.com/maps/place/Djawa+Printing/@-8.25522,113.6850364,112m/data=!3m1!1e3!4m14!1m7!3m6!1s0x2dd6943a42369d8f:0x8bd003425ec58c76!2sAlun-Alun+Jember!8m2!3d-8.1691328!4d113.7022499!16s%2Fg%2F1ptwhx7sf!3m5!1s0x2dd697249d86a7ad:0x2dda33a3469f4d4a!8m2!3d-8.2554598!4d113.6847837!16s%2Fg%2F11r_7_jn7n?entry=ttu&g_ep=EgoyMDI1MDYxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="footer-link">
+                            <p><strong>Alamat:</strong> Jl. Dusun Babatan, RT 001/RW 011, Kec. Jenggawah, Kab. Jember,
+                                Jawa Timur. Kode Pos: 68171</p>
                         </a>
                         <a href="mailto:trushmebin@gmail.com?subject=Subjek%20Email&body=P,%20hallo%20isi%20egga"
                             target="_blank" class="footer-link">
-                            <p><strong>Email:</strong> tRushMeBin@gmail.com</p>
+                            <p><strong>Email:</strong> smartcontroller.id@gmail.com</p>
                         </a>
-                        <a href="https://wa.me/6282331879753?text=p,%20hallo%20egga" target="_blank"
+                        <a href="https://wa.me/6282257808495" target="_blank"
                             class="footer-link">
-                            <p><strong>Telepon:</strong> +62 823-3187-9753</p>
+                            <p><strong>Telepon:</strong> +62 822 5780 8495</p>
                         </a>
-                    </div>
-                    <div class="footer-social-media">
-                        <a href="https://www.facebook.com/profile.php?id=100089054325920" target="_blank"
-                            class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/rushbinenterprise/" target="_blank" class="social-icon"><i
-                                class="fab fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/@egasyahrul4430/videos" target="_blank"
-                            class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                     <div class="copyright text-center text-dark my-2">
-                        <span>&copy; 2025 Rushbin Enterprise | Copyright All Rights Reserved</span>
+                        <span>&copy; 2025 Smart Controller | Copyright All Rights Reserved</span>
                     </div>
                 </div>
             </footer>
