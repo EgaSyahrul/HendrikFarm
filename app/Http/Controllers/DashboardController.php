@@ -219,9 +219,13 @@ class DashboardController extends Controller
      */
     public function destroy($id)
     {
+        // Hapus semua sensor log yang terkait dengan perangkat
+        SensorLog::where('overview_id', $id)->delete();
+
+        // Hapus perangkat
         $device = Overview::findOrFail($id);
         $device->delete();
 
-        return redirect()->route('dashboard.index')->with('success', 'Perangkat berhasil dihapus.');
+        return redirect()->route('dashboard.index')->with('success', 'Perangkat dan semua log sensornya berhasil dihapus.');
     }
 }

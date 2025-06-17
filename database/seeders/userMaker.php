@@ -24,15 +24,15 @@ class userMaker extends Seeder
                 'role' => 'admin',
             ],
         ];
-        // for ($i = 1; $i <= 5; $i++) {
-        //     $userData[] = [
-        //         'nama' => 'Petani Baru ' . $i,
-        //         'email' => 'petani' . $i . '@gmail.com',
-        //         'password' => Hash::make('12345678'),
-        //         'alamat' => 'kebun jamur '. $i,
-        //         'role' => 'user',
-        //     ];
-        // }
+        for ($i = 1; $i <= 5; $i++) {
+            $userData[] = [
+                'nama' => 'Petani Baru ' . $i,
+                'email' => 'petani' . $i . '@gmail.com',
+                'password' => Hash::make('12345678'),
+                'alamat' => 'kebun jamur '. $i,
+                'role' => 'user',
+            ];
+        }
         DB::table('account')->insert($userData);
     }
 }
