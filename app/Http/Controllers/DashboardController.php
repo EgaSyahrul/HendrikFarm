@@ -123,6 +123,12 @@ class DashboardController extends Controller
             ];
         }
 
+        if ($request->ajax()) {
+            return response()->json([
+                'allCharts' => $allCharts,
+            ]);
+        }
+
         $akuns = User::get();
 
         // dd($devices);
