@@ -801,27 +801,6 @@
                     }]
                 },
             });
-
-            // Fungsi untuk memperbarui data chart
-            function updateCharts() {
-                fetch("{{ route('dashboard.index', ['device_id' => $selectedDevice['id']]) }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update Suhu Chart
-                        suhuChart.data.labels = data.allCharts.waktu;
-                        suhuChart.data.datasets[0].data = data.allCharts.suhu;
-                        suhuChart.update();
-
-                        // Update Kelembaban Chart
-                        kelembabanChart.data.labels = data.allCharts.waktu;
-                        kelembabanChart.data.datasets[0].data = data.allCharts.kelembaban;
-                        kelembabanChart.update();
-                    })
-                    .catch(error => console.error('Error updating charts:', error));
-            }
-
-            // Refresh chart setiap 5 detik
-            setInterval(updateCharts, 5000);
         </script>
 
         <script>

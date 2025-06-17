@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -121,12 +122,6 @@ class DashboardController extends Controller
                 'kelembaban' => $logs->pluck('humidity'),
                 'waktu' => $logs->pluck('created_at')->map(fn($d) => $d->format('H:i')),
             ];
-        }
-
-        if ($request->ajax()) {
-            return response()->json([
-                'allCharts' => $allCharts,
-            ]);
         }
 
         $akuns = User::get();
