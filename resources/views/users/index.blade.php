@@ -479,6 +479,10 @@
                                 <option value="user">User</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Password (Kosongkan jika tidak ingin mengubah)</label>
+                            <input type="password" name="password" id="editPassword" class="form-control">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -488,7 +492,6 @@
             </form>
         </div>
     </div>
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>

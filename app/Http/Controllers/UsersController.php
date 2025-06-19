@@ -65,17 +65,24 @@ class UsersController extends Controller
 
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:account,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'alamat' => 'nullable|string',
-            'role' => 'required|string'
+            'role' => 'required|string',
+            'password' => 'nullable|string|min:8', // Validasi untuk password
         ]);
 
-        $user->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'alamat' => $request->alamat,
-            'role' => $request->role
-        ]);
+        // Perbarui data user
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->alamat = $request->alamat;
+        $user->role = $request->role;
+
+        // Perbarui password jika diisi
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
 
         return redirect()->route('users.index')->with('success', 'User berhasil diupdate.');
     }
