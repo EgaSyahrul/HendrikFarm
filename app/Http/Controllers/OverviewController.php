@@ -28,12 +28,16 @@ class OverviewController extends Controller
             $api = $device->api;
             $url_suhu = "https://blynk.cloud/external/api/get?token=$api&V{$device->roomTemperature}";
             $url_kelembaban = "https://blynk.cloud/external/api/get?token=$api&V{$device->humidity}";
+            $url_status = "https://blynk.cloud/external/api/get?token=$api&V{$device->status}";
 
             $suhu = safeApiGet($url_suhu);
             $kelembaban = safeApiGet($url_kelembaban);
+            $status = safeApiGet($url_status);
+
+            $online = !empty($status) && !str_contains($status, 'Sensor Error');
 
             // Simpan ke database (pastikan punya model SensorLog)
-            if ($suhu !== null && $kelembaban !== null) {
+            if ($online) {
                 SensorLog::create([
                     'overview_id' => $device->id,
                     'temperature' => $suhu,

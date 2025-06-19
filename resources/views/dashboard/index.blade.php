@@ -326,11 +326,11 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        {{-- <div
-                                                            class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                                            Lampu
-                                                        </div> --}}
                                                         @if ($selectedDevice['lampu'] === null)
+                                                            <div
+                                                                class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                                                                Lampu OFFLINE
+                                                            </div>
                                                             <p>-</p>
                                                         @else
                                                             <form method="POST"
@@ -372,7 +372,8 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Temperature
                                                         </div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                            id="latestTemperature">
                                                             {{ $selectedDevice['suhu'] }} °C
                                                         </div>
                                                     </div>
@@ -394,7 +395,8 @@
                                                             class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                             Humidity
                                                         </div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                            id="latestHumidity">
                                                             {{ $selectedDevice['kelembaban'] }} %
                                                         </div>
                                                     </div>
@@ -768,42 +770,71 @@
             </script>
         @endif
         <script>
+            function refreshCharts() {
+                // Refresh chart dengan memanggil metode update
+                suhuChart.update();
+                kelembabanChart.update();
+                console.log("Charts refreshed at:", new Date());
+            }
+
+            function scheduleHourlyChartRefresh() {
+                const now = new Date();
+                const currentMinutes = now.getMinutes();
+                const currentSeconds = now.getSeconds();
+
+                // Hitung waktu tunggu sampai menit berikutnya adalah 00
+                const delayUntilNextHour = ((60 - currentMinutes) * 60 - currentSeconds) * 1000;
+
+                setTimeout(() => {
+                    // Jalankan refresh pertama
+                    refreshCharts();
+
+                    // Setelah refresh pertama, lakukan refresh setiap 1 jam
+                    setInterval(refreshCharts, 60 * 60 * 1000); // Setiap 1 jam
+                }, delayUntilNextHour);
+            }
+
+            // Panggil fungsi untuk menjadwalkan refresh chart
+            scheduleHourlyChartRefresh();
+
             const suhuData = @json($allCharts['suhu']);
             const kelembabanData = @json($allCharts['kelembaban']);
             const waktuData = @json($allCharts['waktu']);
 
+            // Inisialisasi chart (contoh sederhana)
             const suhuChart = new Chart(document.getElementById('allSuhuChart'), {
                 type: 'line',
                 data: {
-                    labels: @json($allCharts['waktu']),
+                    labels: ["08:00", "09:00", "10:00"], // Data contoh
                     datasets: [{
                         label: 'Temperature History (°C)',
-                        data: @json($allCharts['suhu']),
+                        data: [22, 24, 23],
                         backgroundColor: 'rgba(255, 159, 64, 0.2)',
                         borderColor: 'rgba(255, 159, 64, 1)',
                         borderWidth: 2,
                         fill: true
                     }]
-                },
+                }
             });
 
             const kelembabanChart = new Chart(document.getElementById('allKelembabanChart'), {
                 type: 'line',
                 data: {
-                    labels: @json($allCharts['waktu']),
+                    labels: ["08:00", "09:00", "10:00"], // Data contoh
                     datasets: [{
                         label: 'Humidity History (%)',
-                        data: @json($allCharts['kelembaban']),
+                        data: [60, 62, 61],
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 2,
                         fill: true
                     }]
-                },
+                }
             });
-        </script>
 
-        <script>
+            // Jadwalkan refresh chart
+            scheduleHourlyChartRefresh();
+
             document.getElementById('toggleSearch').addEventListener('click', function() {
                 const form = document.getElementById('searchFormInline');
                 const isHidden = form.classList.contains('d-none');
@@ -813,6 +844,8 @@
                     '<i class="fas fa-search"></i> Sembunyikan Pencarian' :
                     '<i class="fas fa-search"></i> Tampilkan Pencarian';
             });
+
+            setInterval(updateCharts, 10000);
         </script>
 
     @endif

@@ -126,7 +126,6 @@ class DashboardController extends Controller
 
         $akuns = User::get();
 
-        // dd($devices);
         return view('dashboard.index', compact('dataDevices', 'selectedDevice', 'allCharts', 'user', 'akuns'));
     }
 
