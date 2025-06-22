@@ -805,7 +805,7 @@
             const suhuChart = new Chart(document.getElementById('allSuhuChart'), {
                 type: 'line',
                 data: {
-                    labels: ["08:00", "09:00", "10:00"], // Data contoh
+                    labels: waktuData,
                     datasets: [{
                         label: 'Temperature History (°C)',
                         data: [22, 24, 23],
@@ -820,7 +820,7 @@
             const kelembabanChart = new Chart(document.getElementById('allKelembabanChart'), {
                 type: 'line',
                 data: {
-                    labels: ["08:00", "09:00", "10:00"], // Data contoh
+                    labels: waktuData,
                     datasets: [{
                         label: 'Humidity History (%)',
                         data: [60, 62, 61],
