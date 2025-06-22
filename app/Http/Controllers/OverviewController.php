@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Log;
 
 class OverviewController extends Controller
 {
-    function index() {
+    function index()
+    {
         $user = User::where('id', Auth::id())->first();
         return view('index', compact('user'));
     }
@@ -50,5 +51,44 @@ class OverviewController extends Controller
                 Log::warning("Data sensor null untuk device ID {$device->id}");
             }
         }
+    }
+
+    public function sync()
+    {
+        $devices = Overview::all();
+
+        foreach ($devices as $device) {
+            $api = $device->api;
+
+            $urls = [
+                'suhu' => "https://blynk.cloud/external/api/get?token=$api&V2",
+                'kelembaban' => "https://blynk.cloud/external/api/get?token=$api&V3",
+                'status' => "https://blynk.cloud/external/api/get?token=$api&V0",
+                'mesin' => "https://blynk.cloud/external/api/get?token=$api&V4",
+            ];
+
+            $data = [];
+            foreach ($urls as $key => $url) {
+                $data[$key] = $this->fetchApiData($url);
+            }
+
+            $online = !empty($status) && !str_contains($status, 'Sensor Error');
+
+            // Simpan ke database (pastikan punya model SensorLog)
+            if ($online) {
+                $device->update([
+                    'roomTemperature' => $data['suhu'] ?? null,
+                    'humidity' => $data['kelembaban'] ?? null,
+                    'status' => $data['status'] ?? null,
+                    'machineTemperature' => $data['mesin'] ?? null,
+                ]);
+
+                Log::info("Data for device {$device->id} updated.");
+            } else {
+                Log::warning("Data sensor null untuk device ID {$device->id}");
+            }
+        }
+
+        $this->info('Sensor data synced successfully.');
     }
 }

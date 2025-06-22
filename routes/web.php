@@ -29,6 +29,7 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
 
 Route::resource('/', OverviewController::class)->names('Overview');
 Route::get('/charts', [OverviewController::class, 'charts'])->name('overview.charts');
+Route::get('/sync', [OverviewController::class, 'sync'])->name('overview.sync');
 Route::resource('/login', LoginController::class)->names('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 

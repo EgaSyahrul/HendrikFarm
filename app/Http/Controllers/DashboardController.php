@@ -41,44 +41,30 @@ class DashboardController extends Controller
 
         foreach ($devices as $device) {
             $api = $device->api;
-            $database_kelembaban = $device->humidity;
-            $database_status = $device->status;
-            $database_lampu = $device->manualLamp;
-            $database_temperatur_ruangan = $device->roomTemperature;
-            $database_temperatur_mesin = $device->machineTemperature;
             $userName = User::where('id', $device->user_id)->value('nama');
 
             // API URLs
-            $url_suhu = "https://blynk.cloud/external/api/get?token=$api&V$database_temperatur_ruangan";
-            $url_kelembaban = "https://blynk.cloud/external/api/get?token=$api&V$database_kelembaban";
-            $url_status = "https://blynk.cloud/external/api/get?token=$api&V$database_status";
-            $url_manual = "https://blynk.cloud/external/api/get?token=$api&V$database_lampu";
-            $url_mesin = "https://blynk.cloud/external/api/get?token=$api&V$database_temperatur_mesin";
-            $url_lampu = "https://blynk.cloud/external/api/get?token=$api&V$database_lampu";
+            $url_lampu = "https://blynk.cloud/external/api/get?token=$api&V1";
 
             // Fetch data from API
-            $suhu = $this->safeApiGet($url_suhu);
-            $kelembaban = $this->safeApiGet($url_kelembaban);
-            $status = $this->safeApiGet($url_status);
-            $mesin = $this->safeApiGet($url_mesin);
-            $lampu = $this->safeApiGet($url_lampu);
+            $lampu = safeApiGet($url_lampu);
 
             // Check if the device is online
-            $online = !empty($status) && !str_contains($status, 'Sensor Error');
+            $online = !empty($device->status) && !str_contains($device->status, 'Sensor Error');
 
             if ($online) {
                 $dataDevices->push([
                     'id' => $device->id,
                     'nama' => $device->nama,
                     'microcontroller' => $device->microcontroller,
-                    'status' => $status,
-                    'suhu' => $suhu ?? '-',
-                    'kelembaban' => $kelembaban ?? '-',
-                    'mesin' => $mesin ?? '-',
+                    'status' => $device->status,
+                    'suhu' => $device->roomTemperature ?? '-',
+                    'kelembaban' => $device->humidity ?? '-',
+                    'mesin' => $device->machineTemperature ?? '-',
                     'online' => $online,
                     'user_name' => $userName,
                     'token' => $api,
-                    'pin' => $database_lampu,
+                    'pin' => '1',
                     'lampu' => $online ? $lampu : null,
                 ]);
             } else {
@@ -86,14 +72,14 @@ class DashboardController extends Controller
                     'id' => $device->id,
                     'nama' => $device->nama,
                     'microcontroller' => $device->microcontroller,
-                    'status' => $status ?? '-',
+                    'status' => $device->status ?? '-',
                     'suhu' => '-',
                     'kelembaban' => '-',
                     'mesin' => '-',
                     'online' => null,
                     'user_name' => $userName,
                     'token' => $api,
-                    'pin' => $database_lampu,
+                    'pin' => '1',
                     'lampu' => $online ? $lampu : null,
                 ]);
             }
@@ -127,16 +113,6 @@ class DashboardController extends Controller
         $akuns = User::get();
 
         return view('dashboard.index', compact('dataDevices', 'selectedDevice', 'allCharts', 'user', 'akuns'));
-    }
-
-    private function safeApiGet($url)
-    {
-        try {
-            $response = file_get_contents($url);
-            return $response;
-        } catch (\Exception $e) {
-            return null;
-        }
     }
 
     public function lamp(Request $request, $id)
