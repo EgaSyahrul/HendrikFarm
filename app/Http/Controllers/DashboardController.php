@@ -72,7 +72,7 @@ class DashboardController extends Controller
                     'online' => null,
                     'user_name' => $userName,
                     'token' => $api,
-                    'lampu' => '0',
+                    'lampu' => '1',
                 ]);
             }
         }

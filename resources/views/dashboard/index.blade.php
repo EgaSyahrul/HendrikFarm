@@ -353,7 +353,12 @@
                                                         @endif
                                                     </div>
                                                     <div class="col-auto">
-                                                        <i class="fas fa-lightbulb fa-2x text-gray-300"></i>
+                                                        @if ($isOn ? 'Lampu Off' : 'Lampu On')
+                                                            <i class="fas fa-lightbulb fa-2x text-gray-300"></i>
+                                                        @else
+                                                            <i class="fas fa-lightbulb fa-2x"
+                                                                style="color: #FFD43B;"></i>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
