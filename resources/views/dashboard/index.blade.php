@@ -338,8 +338,6 @@
                                                                 @csrf
                                                                 <input type="hidden" name="token"
                                                                     value="{{ $selectedDevice['token'] }}">
-                                                                <input type="hidden" name="pin"
-                                                                    value="{{ $selectedDevice['pin'] }}">
 
                                                                 @php
                                                                     $isOn = $selectedDevice['lampu'] === '1';

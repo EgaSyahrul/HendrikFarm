@@ -43,12 +43,6 @@ class DashboardController extends Controller
             $api = $device->api;
             $userName = User::where('id', $device->user_id)->value('nama');
 
-            // API URLs
-            $url_lampu = "https://blynk.cloud/external/api/get?token=$api&V1";
-
-            // Fetch data from API
-            $lampu = safeApiGet($url_lampu);
-
             // Check if the device is online
             $online = !empty($device->status) && !str_contains($device->status, 'Sensor Error');
 
@@ -64,8 +58,7 @@ class DashboardController extends Controller
                     'online' => $online,
                     'user_name' => $userName,
                     'token' => $api,
-                    'pin' => '1',
-                    'lampu' => $online ? $lampu : null,
+                    'lampu' => '0',
                 ]);
             } else {
                 $dataDevices->push([
@@ -79,8 +72,7 @@ class DashboardController extends Controller
                     'online' => null,
                     'user_name' => $userName,
                     'token' => $api,
-                    'pin' => '1',
-                    'lampu' => $online ? $lampu : null,
+                    'lampu' => '0',
                 ]);
             }
         }
@@ -119,10 +111,9 @@ class DashboardController extends Controller
     {
         $status = $request->input('status');
         $authToken = $request->input('token');
-        $pin = $request->input('pin');
         $value = ($status === "0") ? 1 : 0;
 
-        $url = "https://blynk.cloud/external/api/update?token=$authToken&V$pin=$value";
+        $url = "https://blynk.cloud/external/api/update?token=$authToken&V1=$value";
 
         $response = Http::get($url);
 
